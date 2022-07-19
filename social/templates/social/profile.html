@@ -1,0 +1,64 @@
+{% extends 'landing/base.html' %}
+{%load crispy_forms_tags %}
+
+{%block content%}
+<div class = 'container'>
+	<div class='row justify-content-center mt-5'>
+		<div class="card shadow-sm col-md-5 col-sm-12 px-5 pt-3">
+		<img src = "{{profile.dp.url}}" class = "rounded-circle" width = "100" height = "100" />
+			<h5 class="pt-4">Username : {{profile_user.username}}</h5>
+			<h5 class="pt-4">{{name}}</h5>
+			<p class="pt-0">{{bio}}</p>
+			{% if profile_user == user %}<a href = "{%url 'profile-edit' user.profile.pk%}">Edit Profile</a>
+			<a href = "{%url 'account_reset_password'%}">Set Password</a>
+			{% else %}
+			<div class="d-grip gap-2">
+				{% if is_following %}
+					<form method = "POST" action = "{% url 'unfollow' profile.pk %}">
+						{% csrf_token %}
+						<button class="btn btn-btn-danger" type = "submit">Unfollow</button>
+					</form>
+					{% if is_mail_following %}
+						<form method = "POST" action = "{% url 'mail-unfollow' profile.pk %}">
+							{% csrf_token %}
+							<button class="btn btn-btn-danger" type = "submit">Don't receive mail-based notifications</button>
+							
+						</form>
+					{% else %}
+						<form method = "POST" action = "{% url 'mail-follow' profile.pk %}">
+							{% csrf_token %}
+							<button class="btn btn-btn-success" type = "submit">Receive mail-based notifications</button>
+							
+						</form>
+					{% endif %}
+				{% else %}
+					<form method = "POST" action = "{% url 'follow' profile.pk %}">
+						{% csrf_token %}
+						<button class="btn btn-btn-success" type = "submit">Follow</button>
+					</form>
+				{% endif %}
+				{%endif%}
+			<div class="mb-3">
+                <a href="{% url 'followers-list' profile_user.profile.pk %}" class="post-link">Followers: {{ number_of_followers }}</a>
+                
+            </div>
+			</div>
+				
+		</div>
+	</div>
+	<div class='row justify-content-center mt-3'>
+		<div class="col-md-5 col-sm-12 border-bottom position-relative">
+			
+		</div>
+	</div>
+	{% for post in posts %}
+	<div class='row justify-content-center mt-3'>
+		<div class="col-md-5 col-sm-12 border-bottom position-relative">
+			<p><strong>{{post.author}}</strong> {{post.created_on}}</p>
+			<p>{{post.body}}</p>
+			<a href="{%url  'post-detail' post.pk%}" class='stretched-link'></a>
+		</div>
+	</div>
+	{%endfor%}
+</div>
+{% endblock content %}

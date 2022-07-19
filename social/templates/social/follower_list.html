@@ -1,0 +1,20 @@
+{% extends 'landing/base.html' %}
+{%load crispy_forms_tags %}
+
+{%block content%}
+<div class = 'container'>
+	<div class='row justify-content-center mt-3'>
+		<div class="col-md-5 col-sm-12 border-bottom">
+			<a href = "{% url 'profile' profile_user.profile.pk %}"><h5>@{{profile_user}}'s</a> Followers</h5>
+		</div>
+	</div>
+
+	{% for follower in followers_list %}
+	<div class='row justify-content-center mt-3'>
+		<div class="col-md-5 col-sm-12 border-bottom">
+			<p><a href = "{% url 'profile' follower.profile.pk %}">@{{follower.username}}</a></p>
+		</div>
+	</div>
+	{%endfor%}
+</div>
+{% endblock content %}
