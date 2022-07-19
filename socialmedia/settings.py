@@ -175,7 +175,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 # SENDGRID_API_KEY = config['SENDGRID_API_KEY']
 # SENDGRID_SANDBOX_MODE_IN_DEBUG=False
 
-MEDIA_ROOT = "E:/dvm2/socialmedia/media"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 #Twilio SendGrid
