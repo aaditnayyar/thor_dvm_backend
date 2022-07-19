@@ -1,3 +1,4 @@
+import os
 """
 Django settings for socialmedia project.
 
@@ -28,7 +29,7 @@ SECRET_KEY = config['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['hackerboi.tech', '20.219.66.109', 'http://myserver.southindia.cloudapp.azure.com:443', 'http://myserver.southindia.cloudapp.azure.com']
 
 
 # Application definition
@@ -63,7 +64,7 @@ INSTALLED_APPS = [
     'import_export'
 ]
 
-SITE_ID = 1
+SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -179,12 +180,12 @@ MEDIA_URL = '/media/'
 
 #Twilio SendGrid
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = config['SENDGRID_API_KEY']
-DEFAULT_FROM_EMAIL = 'aadit.nayyar@gmail.com'
+EMAIL_HOST_USER = config['ID']
+EMAIL_HOST_PASSWORD = config['PWD']
+DEFAULT_FROM_EMAIL = config['ID']
 
 AUTHENTICATION_BACKENDS = (
    "django.contrib.auth.backends.ModelBackend",
@@ -194,3 +195,4 @@ AUTHENTICATION_BACKENDS = (
 GP_CLIENT_ID = config['GP_CLIENT_ID']
 GP_CLIENT_SECRET = config['GP_CLIENT_SECRET']
 #SOCIALACCOUNT_LOGIN_ON_GET = True
+STATIC_ROOT = os.path.join(BASE_DIR,'static/')

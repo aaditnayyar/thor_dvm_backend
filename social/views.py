@@ -1,3 +1,5 @@
+from django.shortcuts import render, HttpResponse
+from django.core.mail import send_mail as sm
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -49,20 +51,14 @@ class PostListView(View):
 			new_post.author = request.user
 			##body = Version(text = new_post.body, post = new_post)
 			new_post.save()
+			rec_list= []
 			for userr in new_post.author.profile.mail_followers.all():
-				message = Mail(
-   				 			   from_email='aadit.nayyar@gmail.com',
-    						   to_emails=userr.email,
-    						   subject='New Post',
-    						   html_content='<strong>Check out a new post by ' + userr.profile.name + ' at Thor!</strong><p>' + userr.profile.name+':'+new_post.body + '</p>')
+				print(userr, new_post.body)
+				rec_list+= [userr.email]
 			try:
-				sg = SendGridAPIClient(settings.EMAIL_HOST_PASSWORD)
-				response = sg.send(message)
-				print(response.status_code)
-				print(response.body)
-				print(response.headers)
+				res = sm(subject = 'New Post', message = 'Check out a new post by', from_email = 'f20211439@goa.bits-pilani.ac.in', recipient_list = rec_list)
 			except Exception as e:
-				print(e.message)
+				print(e)
 			##body.save()
 		context = {
 			'post_list': posts,
@@ -117,7 +113,7 @@ class PostEditView(UserPassesTestMixin,UpdateView):
 	# 	return obj
 	def get_success_url(self):
 		pk = self.kwargs['pk']
-		return reverse('post-detail', kwargs={'pk':pk})
+		return reverse_lazy('post-detail', kwargs={'pk':pk})
 	def test_func(self):
 		post = self.get_object()
 		return self.request.user == post.author
