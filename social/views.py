@@ -53,10 +53,10 @@ class PostListView(View):
 			new_post.save()
 			rec_list= []
 			for userr in new_post.author.profile.mail_followers.all():
-				print(userr, new_post.body)
+				#print(userr, new_post.body)
 				rec_list+= [userr.email]
 			try:
-				res = sm(subject = 'New Post', message = 'Check out a new post by', from_email = 'f20211439@goa.bits-pilani.ac.in', recipient_list = rec_list)
+				res = sm(subject = 'New Post', message = 'Check out a new post by '+new_post.author.username+' at Thor', from_email = 'f20211439@goa.bits-pilani.ac.in', recipient_list = rec_list)
 			except Exception as e:
 				print(e)
 			##body.save()
