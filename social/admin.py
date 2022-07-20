@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Post,Comment,UserProfile
 from import_export.admin import ImportExportMixin
 from .actions import export_as_xls
+from simple_history.admin import SimpleHistoryAdmin
 
 #admin.site.register(Post)
 admin.site.register(Comment)
@@ -17,5 +18,5 @@ admin.site.register(UserProfile, UserProfileAdmin)
 
 from reversion.admin import VersionAdmin
 @admin.register(Post)
-class ClientModelAdmin(VersionAdmin):
+class ClientModelAdmin(SimpleHistoryAdmin, VersionAdmin):
 	pass

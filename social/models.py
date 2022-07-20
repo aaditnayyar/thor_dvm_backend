@@ -1,11 +1,13 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from simple_history.models import HistoricalRecords
 
 class Post(models.Model):
 	body = models.TextField()
 	author = models.ForeignKey(User, on_delete = models.CASCADE)
 	created_on = models.DateTimeField(default = timezone.now)
+	history = HistoricalRecords()
 
 class Comment(models.Model):
 	body = models.TextField()
